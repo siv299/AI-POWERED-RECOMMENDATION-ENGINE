@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Recommendation Engine</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    select, button { font-size: 16px; padding: 10px; margin-right: 10px; }
+    #recommendations { margin-top: 20px; }
+    .item { padding: 8px; margin: 5px 0; background: #f0f0f0; border-radius: 5px; }
+  </style>
+</head>
+<body>
+
+  <h1>AI-Powered Recommendation Engine</h1>
+
+  <label for="category">Choose a product category:</label>
+  <select id="category">
+    <option value="laptop">Laptop</option>
+    <option value="smartphone">Smartphone</option>
+    <option value="headphones">Headphones</option>
+  </select>
+
+  <button onclick="getRecommendations()">Get Recommendations</button>
+
+  <div id="recommendations">
+    <h2>Recommended for You:</h2>
+    <div id="results"></div>
+  </div>
+
+  <script>
+    async function getRecommendations() {
+      const category = document.getElementById("category").value;
+      const res = await fetch(`/recommend?category=${category}`);
+      const data = await res.json();
+
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = "";
+
+      data.recommendations.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "item";
+        div.textContent = item;
+        resultsDiv.appendChild(div);
+      });
+    }
+  </script>
+
+</body>
+</html>
